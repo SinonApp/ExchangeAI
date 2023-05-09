@@ -20,4 +20,6 @@ services:
       dockerfile: ./api/Dockerfile
     links:
       - redis
+    ports:
+      - "80:80"
     command: python3 api.py
