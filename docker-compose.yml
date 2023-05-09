@@ -1,0 +1,23 @@
+services:
+  redis:
+    image: redis:latest
+    volumes:
+      - ./redis:/data
+    command: redis-server --appendonly yes
+
+  parser:
+    image: eve/parser:latest
+    build:
+      context: parser
+      dockerfile: ./parser/Dockerfile
+    links:
+      - redis
+
+  api:
+    image: eve/api:latest
+    build:
+      context: api
+      dockerfile: ./api/Dockerfile
+    links:
+      - redis
+    command: python3 api.py
